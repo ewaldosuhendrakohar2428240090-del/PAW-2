@@ -1,0 +1,222 @@
+{
+  "info": {
+    "_postman_id": "agroforge-restful-api-collection-2026",
+    "name": "AgroForge RESTful API",
+    "description": "Koleksi Postman untuk pengujian RESTful API AgroForge Marketplace Agrikultur. Dikembangkan dengan Express.js dan MongoDB.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01. Auth",
+      "item": [
+        {
+          "name": "Login (Pembeli)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const res = pm.response.json();",
+                  "if (res.token) {",
+                  "    pm.environment.set(\"token\", res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"marcus@tillmanfarm.com\",\n  \"password\": \"farm2024\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login (Penjual / Seller)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seller@agroforge.com\",\n  \"password\": \"seller2024\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@agroforge.com\",\n  \"password\": \"admin2024\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Register User Baru",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ewaldo Suhendra Kohar\",\n  \"email\": \"ewaldo@agroforge.com\",\n  \"password\": \"password123\",\n  \"role\": \"penjual\",\n  \"farmName\": \"Ewaldo Agro Farm\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "Get Profile Me (Verify Token)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. Products",
+      "item": [
+        {
+          "name": "GET Semua Produk",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] }
+          }
+        },
+        {
+          "name": "GET Filter Produk Kategori & Search",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/products?category=Traktor & Mesin&search=John Deere",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                { "key": "category", "value": "Traktor & Mesin" },
+                { "key": "search", "value": "John Deere" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Detail Produk By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products/P001", "host": ["{{baseUrl}}"], "path": ["products", "P001"] }
+          }
+        },
+        {
+          "name": "POST Tambah Produk (Seller / Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"AGRO-TRAK-2026\",\n  \"productTitle\": \"Traktor Mini Diesel 25HP\",\n  \"productDescription\": \"Traktor efisien bahan bakar cocok untuk lahan terasering.\",\n  \"itemPrice\": 32000,\n  \"category\": \"Traktor & Mesin\",\n  \"brand\": \"Kubota\",\n  \"stockStatus\": \"in_stock\",\n  \"stockQuantity\": 4,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=700&h=480&fit=crop&auto=format\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] }
+          }
+        },
+        {
+          "name": "DELETE Produk By ID",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/products/AGRO-TRAK-2026", "host": ["{{baseUrl}}"], "path": ["products", "AGRO-TRAK-2026"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. Orders",
+      "item": [
+        {
+          "name": "GET Semua Pesanan",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] }
+          }
+        },
+        {
+          "name": "POST Buat Pesanan Baru (Checkout)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"totalAmount\": 87500,\n  \"paymentMethod\": \"Transfer Bank\",\n  \"items\": [\n    {\n      \"product\": {\n        \"id\": \"P001\",\n        \"productTitle\": \"Traktor Utilitas John Deere 6120M\",\n        \"itemPrice\": 87500,\n        \"imageUrl\": \"https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=700&h=480&fit=crop&auto=format\"\n      },\n      \"quantity\": 1\n    }\n  ],\n  \"shippingAddress\": {\n    \"fullName\": \"Marcus Tillman\",\n    \"addressLine1\": \"Jl. Jendral Sudirman No. 100\",\n    \"city\": \"Palembang\",\n    \"state\": \"Sumatera Selatan\",\n    \"zipCode\": \"30129\",\n    \"phone\": \"081298765432\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. Admin",
+      "item": [
+        {
+          "name": "GET Admin Stats & Monitoring",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/stats", "host": ["{{baseUrl}}"], "path": ["admin", "stats"] }
+          }
+        },
+        {
+          "name": "GET Daftar Komplain",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/complaints", "host": ["{{baseUrl}}"], "path": ["admin", "complaints"] }
+          }
+        },
+        {
+          "name": "POST Buat Komplain Baru",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user\": \"Budi Santoso\",\n  \"issue\": \"Pengiriman traktor terlambat dari jadwal\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/complaints", "host": ["{{baseUrl}}"], "path": ["admin", "complaints"] }
+          }
+        },
+        {
+          "name": "PUT Tandai Selesai Komplain",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/complaints/C-001/resolve", "host": ["{{baseUrl}}"], "path": ["admin", "complaints", "C-001", "resolve"] }
+          }
+        },
+        {
+          "name": "GET Daftar Penjual (Sellers)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/sellers", "host": ["{{baseUrl}}"], "path": ["admin", "sellers"] }
+          }
+        }
+      ]
+    }
+  ]
+}

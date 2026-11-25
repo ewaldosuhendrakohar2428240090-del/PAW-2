@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:5000/admin/stats
+method: GET
+order: 10000

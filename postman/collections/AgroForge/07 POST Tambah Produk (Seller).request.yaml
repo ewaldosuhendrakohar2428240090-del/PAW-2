@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:5000/products
+method: POST
+body:
+  type: json
+  content: '{"sku": "AGRO-TRAK-01", "productTitle": "Traktor Mini Modern 25HP", "productDescription": "Traktor mini handal untuk membajak sawah dan kebun.", "itemPrice": 45000, "category": "Traktor & Mesin", "brand": "Kubota", "stockQuantity": 5, "stockStatus": "in_stock"}'
+order: 7000

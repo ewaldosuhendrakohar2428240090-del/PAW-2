@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:5000/orders
+method: POST
+body:
+  type: json
+  content: '{"totalAmount": 87500, "paymentMethod": "Transfer Bank", "items": [{"product": {"id": "P001", "productTitle": "Traktor Utilitas John Deere 6120M", "itemPrice": 87500}, "quantity": 1}], "shippingAddress": {"fullName": "Marcus Tillman", "addressLine1": "Jl. Raya Pertanian No. 45", "city": "Palembang", "state": "Sumatera Selatan", "zipCode": "30139", "phone": "08123456789"}}'
+order: 9000

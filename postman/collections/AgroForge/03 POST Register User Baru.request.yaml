@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:5000/auth/register
+method: POST
+body:
+  type: json
+  content: '{"name": "Ewaldo Suhendra Kohar", "email": "ewaldo@agroforge.com", "password": "password123", "role": "penjual", "farmName": "Ewaldo Farm"}'
+order: 3000

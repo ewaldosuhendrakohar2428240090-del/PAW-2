@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:5000/products?category=Traktor%20%26%20Mesin
+method: GET
+order: 5000

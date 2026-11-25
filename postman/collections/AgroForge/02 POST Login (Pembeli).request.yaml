@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:5000/auth/login
+method: POST
+body:
+  type: json
+  content: '{"email": "marcus@tillmanfarm.com", "password": "farm2024"}'
+order: 2000
